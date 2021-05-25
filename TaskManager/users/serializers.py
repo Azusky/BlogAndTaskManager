@@ -4,7 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-# from tasks.serializers import TaskSerializer
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -21,11 +21,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             'last_name': {'required': True}
         }
 
-    # def validate(self, attrs):
-    #     if attrs['password'] != attrs['password2']:
-    #         raise serializers.ValidationError({"password": "Password fields didn't match."})
 
-    #     return attrs
 
     def create(self, validated_data):
         user = User.objects.create(
@@ -35,20 +31,18 @@ class RegisterSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name']
         )
 
-
         user.set_password(validated_data['password'])
         user.save()
 
         return user
 
 class UserSerializer(serializers.ModelSerializer):
-    # tasks = TaskSerializer()
+    
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email'] #,'tasks'
 
     def create(self, validated_data):
-
         return User.objects.create(**validated_data)
 
 
@@ -57,7 +51,5 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-
-        # Add custom claims
         token['username'] = user.username
         return token
