@@ -13,15 +13,7 @@ class Task(models.Model):
     def save(self, *args, **kwargs):
         super(Task, self).save(*args, **kwargs)
 
-# class Comment(models.Model):
-#     text = models.TextField(default="test")
-#     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-#     owner = models.ForeignKey('auth.User', related_name='tasks', on_delete=models.CASCADE)
 
-#     def save(self, *args, **kwargs):
-
-
-#         super(Comment, self).save(*args, **kwargs)
 
 class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
